@@ -6,17 +6,17 @@ by: Emy Klepacki
 
 As someone who enjoys going to the gym, I’ve found that the hardest part isn’t the workouts—it’s maintaining proper nutrition. For college students balancing classes, workouts, and healthy eating, staying on track can be especially challenging, no matter their fitness goals. This project aims to take the stress out of nutrition by finding easy, macro-friendly recipes that support gains and goals.
 
-For me, I aim to find recipes that are low-calorie and high in protein, as I want to maximize protein throughout my day. For those who aspire to lose/maintain weight or "cut", this could be ideal for finding recipes that keep you full and in a deficit/maintenance. For those who aspire to gain weight or "bulk", I would find recipes that are both high in protein and calories. Of course, there are other nutritional values that are also important to keep in mind, such as carbs, fats, etc., but this project will be mainly focusing on calories and protein. Therefore, to find the types of recipes that match nutrtional goals, the relevant columns for RAW_recipes.csv include 'name', 'tags', and 'nutrition'. In addition, I would like to explore which types of these recipes are optimal for college students that are low on time. Thus, another relevant column is 'minutes'. Lastly, I would like to see user ratings based on these recipes to see how they compare to other recipes, so I will also look into the 'rating' column.
+For me, I aim to find recipes that are low-calorie and high in protein, as I want to maximize protein throughout my day. For those who aspire to lose/maintain weight or "cut", this could be ideal for finding recipes that keep you full and in a deficit/maintenance. For those who aspire to gain weight or "bulk", I would find recipes that are both high in protein and calories. Of course, there are other nutritional values that are also important to keep in mind, such as carbs, fats, etc., but this project will be mainly focusing on calories and protein. Therefore, to find the types of recipes that match nutrtional goals, the relevant columns for RAW_recipes.csv include `name`, `tags`, and `nutrition`. In addition, I would like to explore which types of these recipes are optimal for college students that are low on time. Thus, another relevant column is `minutes`. Lastly, I would like to see user ratings based on these recipes to see how they compare to other recipes, so I will also look into the 'rating' column.
 
 After brainstorming some questions, this led me to my overall question: **Which types of recipes are the most macro-friendly and time-efficient?**
 
-The dataset RAW_recipes.csv includes 83782 rows, and the dataset RAW_interactions.csv includes 731,927 rows. The columns I will focus on are: 'name' (recipe name), 'tags' (Food.com tags for recipe), 'nutrition' (Nutrition information in the form [calories (#), total fat (PDV), sugar (PDV), sodium (PDV), protein (PDV), saturated fat (PDV), carbohydrates (PDV)]; PDV stands for “percentage of daily value”), 'rating' (Rating given), and 'minutes' (Minutes to prepare recipe).
+The dataset RAW_recipes.csv includes 83782 rows, and the dataset RAW_interactions.csv includes 731,927 rows. The columns I will focus on are: `name` (recipe name), `tags` (Food.com tags for recipe), `nutrition` (Nutrition information in the form [calories (#), total fat (PDV), sugar (PDV), sodium (PDV), protein (PDV), saturated fat (PDV), carbohydrates (PDV)]; PDV stands for “percentage of daily value”), `rating` (Rating given), and `minutes` (Minutes to prepare recipe).
 
 
 
 ## Data Cleaning and Exploratory Data Analysis
 ### Cleaning
-To start, I began by merging the datasets on 'recipe_id' (or 'id' for RAW_recipes.csv). I then extracted 'protein' and 'calories' from the nutrition column as their own values, and I dropped rows that did not include these values. From the ratings column, I replaced all ratings of 0 with NaN to represent missing values. I also only included columns that were necessary to my dataframe, so I got rid of all other columns (such as 'date', 'submitted', etc.). In addition, I got rid of any duplicate recipes, given that many recipes showed up numerous times depending on how many reviews they received. Instead, I took the mean of all their ratings and included that value in the 'rating' column. To fill missing values in the minutes column, I used probabilistic imputation by randomly sampling from the observed minutes values with NumPy. This preserves the original distribution and avoids bias from using a fixed mean or median. I additionally filtered out recipes that took over 120 minutes, given that I'm looking for recipes that are time-efficient and wanted to remove outliers.
+To start, I began by merging the datasets on `recipe_id` (or `id` for RAW_recipes.csv). I then extracted `protein` and `calories` from the nutrition column as their own values, and I dropped rows that did not include these values. From the ratings column, I replaced all ratings of 0 with NaN to represent missing values. I also only included columns that were necessary to my dataframe, so I got rid of all other columns (such as `date`, `submitted`, etc.). In addition, I got rid of any duplicate recipes, given that many recipes showed up numerous times depending on how many reviews they received. Instead, I took the mean of all their ratings and included that value in the `rating` column. To fill missing values in the minutes column, I used probabilistic imputation by randomly sampling from the observed minutes values with NumPy. This preserves the original distribution and avoids bias from using a fixed mean or median. I additionally filtered out recipes that took over 120 minutes, given that I'm looking for recipes that are time-efficient and wanted to remove outliers.
 
 Here is the cleaned dataframe:
 
@@ -52,23 +52,19 @@ To better understand the data, I looked at the distributions of calories, protei
  frameborder="0"
  ></iframe>
 
- 
-
-
-
 ### Bivariate Anaylysis
 To get a better idea of which types of recipes offer the best macros, I looked at two groups: high-protein, low-calorie and high-protein, high-calorie. I split the data using medians, so the groups were based on the overall distribution. For the high-protein, low-calorie recipes, the median protein was 30.0g and median calories were 234.8. On the other hand, the high-protein, high-calorie group had a median of 52.0g of protein and 516.6 calories. Both types of meals are high in protein, but the high-calorie ones definitely offer more. These are useful depending on your goals nutrition-wise. Additionally, high-protein, high-calorie recipes tend to take slightly longer as well, with an average of about 43.8 minutes in comparison to 36.0 minutes for the low-calorie group.
 
    <iframe
  src="assets/lowcal.html"
- width="800"
- height="600"
+ width="1000"
+ height="700"
  frameborder="0"
  ></iframe>
 <iframe
  src="assets/highcal.html"
- width="800"
- height="600"
+ width="1000"
+ height="700"
  frameborder="0"
  ></iframe>
 
@@ -94,10 +90,16 @@ I will be using Mean Squared Error (MSE) to evaluate the accuracy of my predicti
 
 ## Baseline Model
 
-For the baseline model, I used linear regression to predict a recipe’s prep time (minutes) based on two numeric features: calories and protein. Since both features are already numerical and on a similar scale, I didn’t apply any additional preprocessing like scaling or encoding. The baseline regression model produced a Mean Squared Error (MSE) of 4941.87, which corresponds to a Root Mean Squared Error (RMSE) of approximately 70.3 minutes. This means that, on average, the model's predictions are off by about 70.3 minutes. Thus, this gives me a useful baseline to compare against as I improve the model using additional features.
+For the baseline model, I used linear regression to predict a recipe’s prep time (`minutes`) based on two numeric features: `calories` and `protein`. Since both features are already numerical and on a similar scale, I didn’t apply any additional preprocessing like scaling or encoding. The baseline regression model produced a Mean Squared Error (MSE) of 4941.87, which corresponds to a Root Mean Squared Error (RMSE) of approximately 70.3 minutes. This means that, on average, the model's predictions are off by about 70.3 minutes. Thus, this gives me a useful baseline to compare against as I improve the model using additional features.
 
 
 ## Final Model
 
-To improve my baseline model, I built a final model using a Random Forest Regressor and engineered 5 new quantitative features from the recipe’s nutritional data: total fat, sugar, carbohydrates, sodium, and PDV. These were added to the original features (calories and protein) to better capture nutritional complexity and its potential impact on prep time. I applied appropriate transformations using a pipeline and used GridSearchCV for initial tuning. While the final model (MSE about 4790) only slightly outperformed the baseline (MSE about 4941), this small improvement suggests that nutrition may play a limited role in predicting cooking time, and that other factors like recipe steps, ingredients, or tags might be more influential in future models.
+To improve my baseline model, I built a final model using a Random Forest Regressor and engineered 5 new quantitative features from the recipe’s nutritional data: `total fat`, `sugar`, `carbohydrates`, `sodium`, and `PDV`. These were added to the original features (`calories` and `protein`) to better capture nutritional complexity and its potential impact on prep time. I applied appropriate transformations using a pipeline and used GridSearchCV for initial tuning. While the final model (MSE about 4790) only slightly outperformed the baseline (MSE about 4941), this small improvement suggests that nutrition may play a limited role in predicting cooking time, and that other factors like recipe steps, ingredients, or tags might be more influential in future models.
 
+<iframe
+ src="assets/scatter_plot.html"
+ width="1000"
+ height="700"
+ frameborder="0"
+ ></iframe>
