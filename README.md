@@ -1,4 +1,4 @@
-# Macro-Friendly Recipes!
+# Optimizing for Macros and Minutes: A Recipe Analysis
 
 by: Emy Klepacki
 
