@@ -31,47 +31,52 @@ Here is the cleaned dataframe:
 
 
 ### Univariate Analysis
-To better understand the data, I looked at the distributions of calories, protein, and prep time. Most recipes have fewer than 300 calories, with a median of 294, which shows that the dataset leans toward lower-calorie meals. Protein is a bit more spread out, but the median is around 16g, meaning most recipes aren't super high in protein. When it comes to prep time, most recipes take about 32 minutes or less, making them quick and easy to make. I filtered out recipes with more than 2000 calories or 200g of protein to keep the distribution more realistic, since very few (if any) recipes go above those numbers. I also added dashed lines in each chart to show where the median falls and make trends easier to spot. TODO
+To better understand the data, I looked at the distributions of `calories`, `protein`, and `minutes`. Most recipes have fewer than 300 calories, with a median of 294, which shows that the dataset leans toward lower-calorie meals. Protein is a bit more spread out, but the median is around 16g, meaning most recipes aren't super high in protein. When it comes to prep time, most recipes take about 32 minutes or less, making them quick and easy to make. I filtered out recipes with more than 2000 calories or 200g of protein to keep the distribution more realistic, since very few (if any) recipes go above those numbers. 
 
  <iframe
  src="assets/calories_histogram.html"
  width="800"
- height="600"
+ height="500"
  frameborder="0"
  ></iframe>
+ Median calories: 294.2
   <iframe
  src="assets/protein_histogram.html"
  width="800"
- height="600"
+ height="500"
  frameborder="0"
  ></iframe>
+ Median protein: 16.0
    <iframe
  src="assets/minutes_histogram.html"
  width="800"
- height="600"
+ height="500"
  frameborder="0"
  ></iframe>
+ Median minutes: 32.0
 
 ### Bivariate Anaylysis
 To get a better idea of which types of recipes offer the best macros, I looked at two groups: high-protein, low-calorie and high-protein, high-calorie. I split the data using medians, so the groups were based on the overall distribution. For the high-protein, low-calorie recipes, the median protein was 30.0g and median calories were 234.8. On the other hand, the high-protein, high-calorie group had a median of 52.0g of protein and 516.6 calories. Both types of meals are high in protein, but the high-calorie ones definitely offer more. These are useful depending on your goals nutrition-wise. Additionally, high-protein, high-calorie recipes tend to take slightly longer as well, with an average of about 43.8 minutes in comparison to 36.0 minutes for the low-calorie group.
 
    <iframe
  src="assets/lowcal.html"
- width="1000"
- height="700"
+ width="8000"
+ height="500"
  frameborder="0"
  ></iframe>
+High Protein, Low Calorie → Median Protein: 30.0g, Median Calories: 234.8
+Average prep time (High Protein, Low Calorie): 36.0 minutes
 <iframe
  src="assets/highcal.html"
- width="1000"
- height="700"
+ width="8000"
+ height="500"
  frameborder="0"
  ></iframe>
-
- 
+High Protein, High Calorie → Median Protein: 52.0g, Median Calories: 516.6
+Average prep time (High Protein, High Calorie): 43.8 minutes
 
 ### Interesting Aggregates
-I grouped recipes by prep time ranges to explore how nutrition and user ratings change with cooking time. Recipes that take longer generally have more protein and calories, as we can see a slight increase in both columns as time increases. In addition, ratings remain consistently high across all time bins, indicating that users highly rate both quick and more involved recipes alike. Thus, ratings is not the best column to predict other values.
+I grouped recipes by prep time ranges to explore how `nutrition` and `ratings` change with cooking time. Recipes that take longer generally have more protein and calories, as we can see a slight increase in both columns as time increases. In addition, ratings remain consistently high across all time bins (~4.6/5), indicating that users highly rate both quick and more involved recipes alike. Thus, this suggests that ratings is not the best column to predict other values.
 
 Here is the dataframe:
 
@@ -84,22 +89,20 @@ Here is the dataframe:
 | 61–90            |   38.3323 |    542.416 |  4.627   |
 
 ## Framing a Prediction Problem
-One column that I plan on trying to predict is minutes, as I want to predict whether these macro optimal meals are feasible for people with limited time in the kitchen. This is a regression problem given minutes is a numeric and continuous variable, and the difference between values is meaningful. So, I will be predicting prep time ('minutes') based on features like calories and protein. This helps me reach the goal of finding macro-friendly recipes that are time-efficient.
+One of the key columns I aimed to predict was `minutes`, which represents the total preparation time required for a recipe. Since minutes is a continuous numeric variable with meaningful differences between values (e.g., 15 minutes vs. 30 minutes), this frames the task as a regression problem.
 
-I will be using Mean Squared Error (MSE) to evaluate the accuracy of my predictions. Since I’m working on a regression problem with a continuous target (minutes), MSE is appropriate because it penalizes larger errors more heavily, helping the model focus on minimizing big prediction mistakes. This allows for a more precise estimate of how far off the predicted prep times are from the actual values.
+I selected `minutes` as the target because the focus of my analysis is to surface macro-friendly recipes—such as those that are high in protein and low in calories—that are also quick and efficient to make. Being able to estimate prep time helps determine whether these nutritious options are feasible for people with limited time. This is a predictive modeling task, as the input features used (such as calories, protein, sodium, percent daily values, etc.) are known ahead of time and would realistically be available prior to preparing the meal.
+
+To assess how well the model performs, I used Mean Squared Error (MSE) as the evaluation metric. MSE is particularly suitable for regression tasks because it penalizes larger errors more severely, which helps the model avoid making significant mispredictions. This allows for a more precise estimate of how far off the predicted prep times are from the actual values.
 
 ## Baseline Model
 
-For the baseline model, I used linear regression to predict a recipe’s prep time (`minutes`) based on two numeric features: `calories` and `protein`. Since both features are already numerical and on a similar scale, I didn’t apply any additional preprocessing like scaling or encoding. The baseline regression model produced a Mean Squared Error (MSE) of 4941.87, which corresponds to a Root Mean Squared Error (RMSE) of approximately 70.3 minutes. This means that, on average, the model's predictions are off by about 70.3 minutes. Thus, this gives me a useful baseline to compare against as I improve the model using additional features.
-
+For the baseline model, I used linear regression to predict a recipe’s prep time (`minutes`) based on two numeric quantitative features: `calories` and `protein`. Since both features are already numerical and on a similar scale, I didn’t apply any additional preprocessing like scaling or encoding. The baseline regression model produced a Mean Squared Error (MSE) of 4941.87, which corresponds to a Root Mean Squared Error (RMSE) of approximately 70.3 minutes. This means that, on average, the model's predictions are off by about 70.3 minutes. While the model is fairly simple and limited in the number of features it uses, it serves as a reasonable starting point. I wouldn’t consider it highly accurate for real-world use, as 70.3 minutes is a relatively high error for this set, but it provides a solid baseline to improve upon as I introduce more informative features in future models.
 
 ## Final Model
 
-To improve my baseline model, I built a final model using a Random Forest Regressor and engineered 5 new quantitative features from the recipe’s nutritional data: `total fat`, `sugar`, `carbohydrates`, `sodium`, and `PDV`. These were added to the original features (`calories` and `protein`) to better capture nutritional complexity and its potential impact on prep time. I applied appropriate transformations using a pipeline and used GridSearchCV for initial tuning. While the final model (MSE about 4790) only slightly outperformed the baseline (MSE about 4941), this small improvement suggests that nutrition may play a limited role in predicting cooking time, and that other factors like recipe steps, ingredients, or tags might be more influential in future models.
+To improve my baseline model, I built a final model using a Random Forest Regressor and engineered 5 new quantitative features from the recipe’s nutritional data: `total fat`, `sugar`, `carbohydrates`, `sodium`, and `PDV`. These were added to the original features (`calories` and `protein`) to better capture nutritional complexity and its potential impact on prep time.  By including these variables, I aimed to capture more of the underlying structure influencing how long a recipe might take to prepare.
 
-<iframe
- src="assets/scatter_plot.html"
- width="1000"
- height="700"
- frameborder="0"
- ></iframe>
+I implemented these transformations within a Pipeline, applying `StandardScaler` and `QuantileTransformer` where appropriate to ensure the model could learn effectively from features with different distributions. To tune the model, I used `GridSearchCV`, focusing on the number of estimators and tree depth. The best-performing configuration used `n_estimators=100` and `max_depth=5`.
+
+The final model achieved a Mean Squared Error (MSE) of approximately 4790 (69.2 minutes), compared to the baseline model’s MSE of 4941 (70.3 minutes). While the improvement is slight, it reflects that incorporating a broader set of nutritional features can provide some predictive value. However, the relatively small gain suggests that nutritional content alone may not be a strong predictor of prep time. In future iterations, including structural features like the number of steps, ingredients, or even text-based tags could further enhance performance.
