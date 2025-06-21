@@ -39,14 +39,12 @@ To better understand the data, I looked at the distributions of calories, protei
  height="600"
  frameborder="0"
  ></iframe>
-
   <iframe
  src="assets/protein_histogram.html"
  width="800"
  height="600"
  frameborder="0"
  ></iframe>
-
    <iframe
  src="assets/minutes_histogram.html"
  width="800"
@@ -67,7 +65,6 @@ To get a better idea of which types of recipes offer the best macros, I looked a
  height="600"
  frameborder="0"
  ></iframe>
-
 <iframe
  src="assets/highcal.html"
  width="800"
@@ -79,6 +76,16 @@ To get a better idea of which types of recipes offer the best macros, I looked a
 
 ### Interesting Aggregates
 I grouped recipes by prep time ranges to explore how nutrition and user ratings change with cooking time. Recipes that take longer generally have more protein and calories, as we can see a slight increase in both columns as time increases. In addition, ratings remain consistently high across all time bins, indicating that users highly rate both quick and more involved recipes alike. Thus, ratings is not the best column to predict other values.
+
+Here is the dataframe:
+
+| time (minutes)   |   protein |   calories |   rating |
+|:-----------------|----------:|-----------:|---------:|
+| 0–15             |   17.2952 |    313.555 |  4.67092 |
+| 16–30            |   31.7128 |    375.745 |  4.62359 |
+| 31–45            |   33.7589 |    416.863 |  4.60538 |
+| 46–60            |   36.2782 |    489.552 |  4.608   |
+| 61–90            |   38.3323 |    542.416 |  4.627   |
 
 ## Framing a Prediction Problem
 One column that I plan on trying to predict is minutes, as I want to predict whether these macro optimal meals are feasible for people with limited time in the kitchen. This is a regression problem given minutes is a numeric and continuous variable, and the difference between values is meaningful. So, I will be predicting prep time ('minutes') based on features like calories and protein. This helps me reach the goal of finding macro-friendly recipes that are time-efficient.
