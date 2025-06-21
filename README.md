@@ -6,7 +6,7 @@ by: Emy Klepacki
 
 As someone who enjoys going to the gym, I’ve found that the hardest part isn’t the workouts—it’s maintaining proper nutrition. For college students balancing classes, workouts, and healthy eating, staying on track can be especially challenging, no matter their fitness goals. This project aims to take the stress out of nutrition by finding easy, macro-friendly recipes that support gains and goals.
 
-For me, I aim to find recipes that are low-calorie and high in protein, as I want to maximize protein throughout my day. For those who aspire to lose/maintain weight or "cut", this could be ideal for finding recipes that keep you full and in a deficit/maintenance. For those who aspire to gain weight or "bulk", I would find recipes that are both high in protein and calories. Of course, there are other nutritional values that are also important to keep in mind, such as carbs, fats, etc., but this project will be mainly focusing on calories and protein. Therefore, to find the types of recipes that match nutrtional goals, the relevant columns for RAW_recipes.csv include `name`, `tags`, and `nutrition`. In addition, I would like to explore which types of these recipes are optimal for college students that are low on time. Thus, another relevant column is `minutes`. Lastly, I would like to see user ratings based on these recipes to see how they compare to other recipes, so I will also look into the 'rating' column.
+Many gym-goers often tend to prioritize protein and caloric intake when it comes to nutrition. For those who aspire to lose/maintain weight or "cut", recipes that are low in calories but high in protein are ideal, as they help keep you full while supporting a caloric deficit or maintenance. On the other hand, those looking to gain weight or "bulk" benefit more from recipes that are high in both protein and calories to support muscle growth and a caloric surplus. Of course, there are other nutritional values that are also important to keep in mind, such as carbs, fats, etc., but this project will be mainly focusing on calories and protein. Therefore, to find the types of recipes that match nutrtional goals, the relevant columns for RAW_recipes.csv include `name`, `tags`, and `nutrition`. In addition, I would like to explore which types of these recipes are optimal for college students that are low on time. Thus, another relevant column is `minutes`. Lastly, I would like to see user ratings based on these recipes to see how they compare to other recipes, so I will also look into the 'rating' column.
 
 After brainstorming some questions, this led me to my overall question: **Which types of recipes are the most macro-friendly and time-efficient?**
 
@@ -65,6 +65,7 @@ To get a better idea of which types of recipes offer the best macros, I looked a
  frameborder="0"
  ></iframe>
 High Protein, Low Calorie → Median Protein: 30.0g, Median Calories: 234.8
+
 Average prep time (High Protein, Low Calorie): 36.0 minutes
 <iframe
  src="assets/highcal.html"
@@ -73,6 +74,7 @@ Average prep time (High Protein, Low Calorie): 36.0 minutes
  frameborder="0"
  ></iframe>
 High Protein, High Calorie → Median Protein: 52.0g, Median Calories: 516.6
+
 Average prep time (High Protein, High Calorie): 43.8 minutes
 
 ### Interesting Aggregates
