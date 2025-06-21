@@ -19,13 +19,13 @@ The dataset RAW_recipes.csv includes 83782 rows, and the dataset RAW_interaction
 To start, I began by merging the datasets on 'recipe_id' (or 'id' for RAW_recipes.csv). I then extracted 'protein' and 'calories' from the nutrition column as their own values, and I dropped rows that did not include these values. From the ratings column, I replaced all ratings of 0 with NaN to represent missing values. I also only included columns that were necessary to my dataframe, so I got rid of all other columns (such as 'date', 'submitted', etc.). In addition, I got rid of any duplicate recipes, given that many recipes showed up numerous times depending on how many reviews they received. Instead, I took the mean of all their ratings and included that value in the 'rating' column. To fill missing values in the minutes column, I used probabilistic imputation by randomly sampling from the observed minutes values with NumPy. This preserves the original distribution and avoids bias from using a fixed mean or median. I additionally filtered out recipes that took over 120 minutes, given that I'm looking for recipes that are time-efficient and wanted to remove outliers.
 
 Here is the cleaned dataframe:
-
+<!-- 
 <iframe
  src="assets/my_table.html"
  width="800"
  height="600"
  frameborder="0"
- ></iframe>
+ ></iframe> -->
 
  | name                                |   minutes |   calories |   protein | tags                                                                                                                                                                                                                                                              |   rating |
 |:------------------------------------|----------:|-----------:|----------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------:|
@@ -39,6 +39,29 @@ Here is the cleaned dataframe:
 
 ### Univariate Analysis
 To better understand the data, I looked at the distributions of calories, protein, and prep time. Most recipes have fewer than 300 calories, with a median of 294, which shows that the dataset leans toward lower-calorie meals. Protein is a bit more spread out, but the median is around 16g, meaning most recipes aren't super high in protein. When it comes to prep time, most recipes take about 32 minutes or less, making them quick and easy to make. I filtered out recipes with more than 2000 calories or 200g of protein to keep the distribution more realistic, since very few (if any) recipes go above those numbers. I also added dashed lines in each chart to show where the median falls and make trends easier to spot.
+
+ <iframe
+ src="assets/calories_histogram.html"
+ width="800"
+ height="600"
+ frameborder="0"
+ ></iframe>
+
+  <iframe
+ src="assets/protein_histogram.html"
+ width="800"
+ height="600"
+ frameborder="0"
+ ></iframe>
+
+   <iframe
+ src="assets/minutes_histogram.html"
+ width="800"
+ height="600"
+ frameborder="0"
+ ></iframe>
+
+ 
 
 
 
