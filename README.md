@@ -18,6 +18,8 @@ The dataset RAW_recipes.csv includes 83782 rows, and the dataset RAW_interaction
 ### Cleaning
 To start, I began by merging the datasets on 'recipe_id' (or 'id' for RAW_recipes.csv). I then extracted 'protein' and 'calories' from the nutrition column as their own values, and I dropped rows that did not include these values. From the ratings column, I replaced all ratings of 0 with NaN to represent missing values. I also only included columns that were necessary to my dataframe, so I got rid of all other columns (such as 'date', 'submitted', etc.). In addition, I got rid of any duplicate recipes, given that many recipes showed up numerous times depending on how many reviews they received. Instead, I took the mean of all their ratings and included that value in the 'rating' column. To fill missing values in the minutes column, I used probabilistic imputation by randomly sampling from the observed minutes values with NumPy. This preserves the original distribution and avoids bias from using a fixed mean or median. I additionally filtered out recipes that took over 120 minutes, given that I'm looking for recipes that are time-efficient and wanted to remove outliers.
 
+Here is the cleaned dataframe:
+
 <iframe
  src="assets/my_table.html"
  width="800"
@@ -25,10 +27,20 @@ To start, I began by merging the datasets on 'recipe_id' (or 'id' for RAW_recipe
  frameborder="0"
  ></iframe>
 
+ | name                                |   minutes |   calories |   protein | tags                                                                                                                                                                                                                                                              |   rating |
+|:------------------------------------|----------:|-----------:|----------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------:|
+| 0 carb   0 cal gummy worms          |        45 |      384.7 |       159 | ['60-minutes-or-less', 'time-to-make', 'course', 'preparation', 'healthy', '5-ingredients-or-less', 'desserts', 'lunch', 'snacks', 'easy', 'low-fat', 'dietary', 'low-cholesterol', 'low-saturated-fat', 'high-protein', 'high-in-something', 'low-in-something'] |     4.75 |
+| 0 point soup   ww                   |        55 |       26.8 |         2 | ['60-minutes-or-less', 'time-to-make', 'course', 'main-ingredient', 'preparation', 'soups-stews', 'vegetables', 'easy', 'vegetarian', 'stove-top', 'dietary', 'equipment', '3-steps-or-less']                                                                     |     4.78 |
+| 007  martini                        |         5 |      146.5 |         0 | ['celebrity', '15-minutes-or-less', 'time-to-make', 'course', 'cuisine', 'preparation', 'occasion', 'for-1-or-2', '5-ingredients-or-less', 'beverages', 'easy', 'european', 'english', 'cocktails', 'novelty', 'number-of-servings']                              |     5    |
+| 1  2  3  swiss meringue buttercream |        20 |      409.8 |         4 | ['30-minutes-or-less', 'time-to-make', 'course', 'preparation', 'low-protein', '5-ingredients-or-less', 'desserts', 'easy', 'cakes', 'dietary', 'low-sodium', 'cake-fillings-and-frostings', 'low-in-something']                                                  |   nan    |
+| 1 2 3 4 bars                        |        75 |      217.6 |         5 | ['weeknight', 'time-to-make', 'course', 'main-ingredient', 'preparation', 'occasion', 'for-large-groups', 'desserts', 'fruit', 'kid-friendly', 'cookies-and-brownies', 'bar-cookies', 'dietary', 'number-of-servings', '4-hours-or-less']                         |     4    |
+
 
 
 ### Univariate Analysis
 To better understand the data, I looked at the distributions of calories, protein, and prep time. Most recipes have fewer than 300 calories, with a median of 294, which shows that the dataset leans toward lower-calorie meals. Protein is a bit more spread out, but the median is around 16g, meaning most recipes aren't super high in protein. When it comes to prep time, most recipes take about 32 minutes or less, making them quick and easy to make. I filtered out recipes with more than 2000 calories or 200g of protein to keep the distribution more realistic, since very few (if any) recipes go above those numbers. I also added dashed lines in each chart to show where the median falls and make trends easier to spot.
+
+
 
 ### Bivariate Anaylysis
 To get a better idea of which types of recipes offer the best macros, I looked at two groups: high-protein, low-calorie and high-protein, high-calorie. I split the data using medians, so the groups were based on the overall distribution. For the high-protein, low-calorie recipes, the median protein was 30.0g and median calories were 234.8. On the other hand, the high-protein, high-calorie group had a median of 52.0g of protein and 516.6 calories. Both types of meals are high in protein, but the high-calorie ones definitely offer more. These are useful depending on your goals nutrition-wise. Additionally, high-protein, high-calorie recipes tend to take slightly longer as well, with an average of about 43.8 minutes in comparison to 36.0 minutes for the low-calorie group.
